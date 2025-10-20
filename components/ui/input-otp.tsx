@@ -6,6 +6,15 @@ import { MinusIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Wraps the OTPInput primitive to apply default layout and merge custom class names.
+ *
+ * Renders an OTPInput with a default flex container, gap and disabled styling, while combining any provided `containerClassName` and `className` with the defaults.
+ *
+ * @param className - Additional class names applied to the OTP input elements.
+ * @param containerClassName - Additional class names applied to the OTP input container.
+ * @returns The rendered OTPInput React element with merged class names and a `data-slot="input-otp"` attribute.
+ */
 function InputOTP({
   className,
   containerClassName,
@@ -26,6 +35,12 @@ function InputOTP({
   )
 }
 
+/**
+ * A container element for arranging OTP input slots horizontally.
+ *
+ * @param className - Additional class names applied to the container
+ * @returns A div with `data-slot="input-otp-group"` and combined classes `"flex items-center"` plus any provided `className`; all other props are forwarded to the div
+ */
 function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -36,6 +51,15 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/**
+ * Renders a single OTP input slot with its visual state and content.
+ *
+ * The component displays the slot's character if present and, when applicable, a centered blinking caret.
+ * It also exposes a `data-active` attribute reflecting the slot's active state and forwards all native div props.
+ *
+ * @param index - The zero-based index of the slot to render
+ * @returns The rendered OTP slot element
+ */
 function InputOTPSlot({
   index,
   className,
@@ -66,6 +90,11 @@ function InputOTPSlot({
   )
 }
 
+/**
+ * Renders a visual separator used between OTP slots.
+ *
+ * @returns A div element with `data-slot="input-otp-separator"`, `role="separator"`, and a `MinusIcon` child.
+ */
 function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
   return (
     <div data-slot="input-otp-separator" role="separator" {...props}>

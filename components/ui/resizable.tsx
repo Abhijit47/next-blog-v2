@@ -6,6 +6,15 @@ import * as ResizablePrimitive from "react-resizable-panels"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Renders a resizable panel group with sensible default layout classes and forwards all received props.
+ *
+ * The component applies a default full-size flex layout and a vertical-direction adaptation, merges any
+ * provided `className` with these defaults, and passes the rest of the props through to the underlying panel group.
+ *
+ * @param className - Additional CSS classes to merge with the component's default layout classes
+ * @returns A React element representing the resizable panel group
+ */
 function ResizablePanelGroup({
   className,
   ...props
@@ -22,12 +31,23 @@ function ResizablePanelGroup({
   )
 }
 
+/**
+ * Renders a resizable panel with a standardized `data-slot` attribute.
+ *
+ * @returns A React element representing the resizable panel.
+ */
 function ResizablePanel({
   ...props
 }: React.ComponentProps<typeof ResizablePrimitive.Panel>) {
   return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />
 }
 
+/**
+ * Renders a resizable panel handle with an optional visual grip.
+ *
+ * @param withHandle - When true, shows a small grip icon inside the handle for visual affordance.
+ * @returns A configured `ResizablePrimitive.PanelResizeHandle` element ready to be used inside a `PanelGroup`.
+ */
 function ResizableHandle({
   withHandle,
   className,

@@ -5,6 +5,15 @@ import * as SwitchPrimitive from "@radix-ui/react-switch"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Render a styled switch control.
+ *
+ * Merges the provided `className` with default styles and forwards all other props to the rendered switch root element.
+ *
+ * @param className - Additional CSS class names applied to the switch root
+ * @param props - Props forwarded to the underlying switch root element
+ * @returns The rendered switch root element
+ */
 function Switch({
   className,
   ...props

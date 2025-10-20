@@ -5,6 +5,13 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Re-exports Radix Tabs.Root with standardized default classes and data-slot.
+ *
+ * Renders a Tabs.Root element with data-slot="tabs" and merges the provided `className` with "flex flex-col gap-2"; all other props are forwarded to TabsPrimitive.Root.
+ *
+ * @returns The rendered TabsPrimitive.Root element
+ */
 function Tabs({
   className,
   ...props
@@ -18,6 +25,15 @@ function Tabs({
   )
 }
 
+/**
+ * Renders a styled tabs list container.
+ *
+ * Accepts all props valid for Radix Tabs.List and applies a set of default styling classes
+ * while merging any additional `className` provided.
+ *
+ * @param className - Additional class names to merge with the component's default classes
+ * @returns A React element representing the tabs list with applied classes and `data-slot="tabs-list"`
+ */
 function TabsList({
   className,
   ...props
@@ -34,6 +50,12 @@ function TabsList({
   )
 }
 
+/**
+ * Opinionated Tabs trigger component that renders a styled tab trigger with a `data-slot="tabs-trigger"` attribute.
+ *
+ * @param className - Additional class names appended to the component's default styling.
+ * @returns The rendered tabs trigger element.
+ */
 function TabsTrigger({
   className,
   ...props
@@ -50,6 +72,12 @@ function TabsTrigger({
   )
 }
 
+/**
+ * Opinionated wrapper around Radix Tabs.Content that applies default layout styling and sets data-slot="tabs-content".
+ *
+ * @param className - Additional CSS classes to merge with the default "flex-1 outline-none".
+ * @returns The rendered Tabs.Content element configured as the tab panel container.
+ */
 function TabsContent({
   className,
   ...props

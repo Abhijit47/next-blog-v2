@@ -73,6 +73,15 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue
 )
 
+/**
+ * Provides a form item container and supplies a generated `id` to descendants via FormItemContext.
+ *
+ * Renders a div with data-slot="form-item", merges `className` with default layout classes, and forwards other div props.
+ *
+ * @param className - Additional CSS class names to apply to the container
+ * @param props - Other standard div properties to forward to the container
+ * @returns A React element: a div wrapped in FormItemContext whose value is an object containing a generated `id`
+ */
 function FormItem({ className, ...props }: React.ComponentProps<"div">) {
   const id = React.useId()
 
@@ -87,6 +96,11 @@ function FormItem({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/**
+ * Renders a label for the current form field that is linked to the field control and reflects validation state.
+ *
+ * @returns A Label element whose `htmlFor` is bound to the field's input id and which exposes `data-error` and error-specific styling when the field has a validation error.
+ */
 function FormLabel({
   className,
   ...props
@@ -104,6 +118,12 @@ function FormLabel({
   )
 }
 
+/**
+ * Renders a form control wrapper that wires ARIA attributes and IDs for the current form field.
+ *
+ * @param props - Props passed through to the underlying Slot component
+ * @returns A Slot element with `id` set to the form item id, `aria-describedby` pointing to the description and (when present) the message, and `aria-invalid` reflecting validation state
+ */
 function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
@@ -122,6 +142,11 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   )
 }
 
+/**
+ * Renders the form field's description paragraph and associates it with the field's description ID for accessibility.
+ *
+ * @returns The paragraph element serving as the field description, with its id set to the field's description ID.
+ */
 function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   const { formDescriptionId } = useFormField()
 
@@ -135,6 +160,13 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   )
 }
 
+/**
+ * Renders a paragraph that displays the field's error message or the provided children and links it to the form field for accessibility.
+ *
+ * When a validation error exists, the error's message is shown; otherwise the component renders its children. If there is no message or children, nothing is rendered.
+ *
+ * @returns The rendered paragraph element containing the message, or `null` when there is no content.
+ */
 function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField()
   const body = error ? String(error?.message ?? "") : props.children

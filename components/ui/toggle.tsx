@@ -28,6 +28,14 @@ const toggleVariants = cva(
   }
 )
 
+/**
+ * A styled wrapper around Radix UI's Toggle that applies variant and size styles and forwards all other props to the underlying Toggle root.
+ *
+ * @param className - Additional class names to merge with the component's computed classes
+ * @param variant - Visual variant of the toggle (e.g., "default" or "outline")
+ * @param size - Size variant of the toggle (e.g., "sm", "default", "lg")
+ * @returns The rendered Radix Toggle root element with composed classes and forwarded props
+ */
 function Toggle({
   className,
   variant,

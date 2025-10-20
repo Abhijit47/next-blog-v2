@@ -36,6 +36,15 @@ const buttonVariants = cva(
   }
 )
 
+/**
+ * Render a styled, variant- and size-aware button that can optionally render as a Radix Slot.
+ *
+ * @param className - Additional class names to merge with the component's computed styles.
+ * @param variant - Visual variant to apply (as defined by `buttonVariants`).
+ * @param size - Size variant to apply (as defined by `buttonVariants`).
+ * @param asChild - When true, render the provided Slot component instead of a native `button`.
+ * @returns A React element for the button (or the provided Slot) with the selected variant, size, and merged class names applied.
+ */
 function Button({
   className,
   variant,

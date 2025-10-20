@@ -5,6 +5,12 @@ import { ChevronDownIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Render a styled navigation menu root and, optionally, its viewport container.
+ *
+ * @param viewport - If `true`, render the associated viewport element beneath the menu (default: `true`).
+ * @returns A React element representing the navigation menu root.
+ */
 function NavigationMenu({
   className,
   children,
@@ -29,6 +35,12 @@ function NavigationMenu({
   )
 }
 
+/**
+ * A styled wrapper around Radix NavigationMenu.List that centers and spaces its child items.
+ *
+ * @param className - Additional class names to merge with the default layout and spacing classes.
+ * @returns The rendered NavigationMenu list element with merged class names and forwarded props.
+ */
 function NavigationMenuList({
   className,
   ...props
@@ -45,6 +57,11 @@ function NavigationMenuList({
   )
 }
 
+/**
+ * Wraps Radix NavigationMenuPrimitive.Item to apply a `relative` utility and a `data-slot`.
+ *
+ * @returns A React element for NavigationMenuPrimitive.Item with `data-slot="navigation-menu-item"`, the `relative` class merged with the provided `className`, and all other props forwarded.
+ */
 function NavigationMenuItem({
   className,
   ...props
@@ -62,6 +79,13 @@ const navigationMenuTriggerStyle = cva(
   "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1"
 )
 
+/**
+ * Render a styled navigation menu trigger that displays its children and a chevron icon which rotates when open.
+ *
+ * @param className - Additional CSS class names to merge with the component's default styles
+ * @param children - Content to render inside the trigger (label, text, or elements)
+ * @returns A NavigationMenu trigger element that shows the provided children and a rotating chevron icon when the menu is open
+ */
 function NavigationMenuTrigger({
   className,
   children,
@@ -82,6 +106,11 @@ function NavigationMenuTrigger({
   )
 }
 
+/**
+ * Renders the submenu panel for the navigation menu with responsive, motion, and viewport-aware styling.
+ *
+ * @returns A configured `NavigationMenuPrimitive.Content` element with animation, positioning, and accessibility classes applied.
+ */
 function NavigationMenuContent({
   className,
   ...props
@@ -99,6 +128,14 @@ function NavigationMenuContent({
   )
 }
 
+/**
+ * Renders a positioned wrapper and the navigation menu viewport element.
+ *
+ * Additional props are forwarded to the underlying viewport element.
+ *
+ * @param className - Additional CSS class names to merge into the viewport element
+ * @returns A JSX element containing the positioned viewport wrapper and its viewport
+ */
 function NavigationMenuViewport({
   className,
   ...props
@@ -121,6 +158,12 @@ function NavigationMenuViewport({
   )
 }
 
+/**
+ * Renders a navigation menu link with built-in interaction and active-state styles.
+ *
+ * @param className - Additional CSS classes to merge with the component's default styles
+ * @returns A React element representing a styled navigation menu link
+ */
 function NavigationMenuLink({
   className,
   ...props
@@ -137,6 +180,13 @@ function NavigationMenuLink({
   )
 }
 
+/**
+ * Renders a styled navigation menu indicator — a small rotated-square pointer positioned beneath an open menu item.
+ *
+ * @param className - Additional class names to merge with the component's default indicator styles.
+ * @param props - Props forwarded to the underlying Radix `NavigationMenuPrimitive.Indicator` element.
+ * @returns The indicator element containing the rotated square visual pointer.
+ */
 function NavigationMenuIndicator({
   className,
   ...props
