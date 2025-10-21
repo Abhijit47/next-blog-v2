@@ -59,7 +59,6 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   });
 
   const handleSubmit = (data: SignUpFormValues) => {
-    console.log('Sign Up data:', data);
     startTransition(async () => {
       await signUp.email({
         name: data.name,
@@ -135,7 +134,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input placeholder='******' {...field} />
+                      <Input placeholder='******' type='password' {...field} />
                     </FormControl>
                     <FormDescription className={'text-xs'}>
                       Must be at least 8 characters long.
@@ -151,7 +150,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
-                      <Input placeholder='joe smith.' {...field} />
+                      <Input placeholder='******' type='password' {...field} />
                     </FormControl>
                     <FormDescription className={'text-xs'}>
                       Please confirm your password.
