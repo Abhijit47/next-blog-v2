@@ -1,3 +1,4 @@
+import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import { headers } from 'next/headers';
 import { cache } from 'react';
 import superjson from 'superjson';
@@ -5,12 +6,24 @@ import superjson from 'superjson';
 import { auth } from '@/lib/auth/server';
 import { initTRPC, TRPCError } from '@trpc/server';
 
-export const createTRPCContext = cache(async () => {
-  /**
-   * @see: https://trpc.io/docs/server/context
-   */
-  return { userId: 'user_123' };
-});
+// export const createContext = async (opts: CreateNextContextOptions) => {
+//   const session = await auth.api.getSession({ headers: await headers() });
+//   return {
+//     session,
+//   };
+// };
+
+export type Context = Awaited<ReturnType<typeof createTRPCContext>>;
+
+export const createTRPCContext = cache(
+  async (opts: CreateNextContextOptions) => {
+    /**
+     * @see: https://trpc.io/docs/server/context
+     */
+    // const session = await auth.api.getSession({ headers: await headers() });
+    return { session: 'User123' };
+  }
+);
 // Avoid exporting the entire t-object
 // since it's not very descriptive.
 // For instance, the use of a t variable
@@ -30,7 +43,7 @@ export const protectedProcedure = baseProcedure.use(async ({ ctx, next }) => {
 
   // console.log('Session in tRPC protectedProcedure:', session);
 
-  if (!session?.user) {
+  if (!session) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'You must be logged in to access this resource.',
@@ -39,3 +52,17 @@ export const protectedProcedure = baseProcedure.use(async ({ ctx, next }) => {
 
   return next({ ctx: { ...ctx, auth: session } });
 });
+export const protect = baseProcedure.use(
+  t.middleware(async ({ ctx, next }) => {
+    const session = await auth.api.getSession({ headers: await headers() });
+
+    if (!session?.user) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'You must be logged in to access this resource.',
+      });
+    }
+
+    return next({ ctx: { ...ctx, auth: session } });
+  })
+);

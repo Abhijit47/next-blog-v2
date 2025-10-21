@@ -13,11 +13,11 @@ export const auth = betterAuth({
     autoSignIn: true,
   },
   session: {
-    expiresIn: 60 * 60, // 1 hour
-    updateAge: 15 * 60, // 15 minutes
+    expiresIn: 60 * 60 * 24 * 30, // 30 days
+    // updateAge: 15 * 60, // 15 minutes
     cookieCache: {
-      enabled: true,
-      maxAge: 15 * 60, // 15 minutes
+      enabled: false,
+      // maxAge: 15 * 60, // 15 minutes
     },
   },
   plugins: [nextCookies()],

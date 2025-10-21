@@ -3,17 +3,25 @@ import {
   PostHeader,
   Posts,
 } from '@/features/posts/components/posts';
+import { postsSearchParamsLoader } from '@/features/posts/server/params-loader';
+import { prefetchPosts } from '@/features/posts/server/prefetch';
 import { requireAuth } from '@/lib/auth/requireAuth';
-import { HydrateClient, prefetch, trpc } from '@/trpc/server';
+import { HydrateClient } from '@/trpc/server';
+import { SearchParams } from 'nuqs/server';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-export default async function PostPage() {
+type PageProps = {
+  searchParams: Promise<SearchParams>;
+};
+
+export default async function PostPage({ searchParams }: PageProps) {
   await requireAuth();
 
   // const users = await caller.getUsers();
+  const params = await postsSearchParamsLoader(searchParams);
 
-  prefetch(trpc.posts.getAll.queryOptions());
+  prefetchPosts(params);
 
   return (
     <PostContainer>

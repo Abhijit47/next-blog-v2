@@ -1,7 +1,8 @@
 import PostCard from '@/features/posts/components/post';
 import { PostContainer } from '@/features/posts/components/posts';
+import { prefetchPost } from '@/features/posts/server/prefetch';
 import { requireAuth } from '@/lib/auth/requireAuth';
-import { HydrateClient, prefetch, trpc } from '@/trpc/server';
+import { HydrateClient } from '@/trpc/server';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -15,7 +16,7 @@ export default async function PostPage({ params }: PageProps) {
 
   const postId = (await params).postId;
 
-  prefetch(trpc.posts.getOne.queryOptions({ id: postId }));
+  prefetchPost(postId);
 
   return (
     <div>
