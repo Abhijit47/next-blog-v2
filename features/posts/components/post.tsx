@@ -1,5 +1,6 @@
 'use client';
 
+import { formatDistanceToNow } from 'date-fns';
 import Link from 'next/link';
 
 import { Badge } from '@/components/ui/badge';
@@ -25,7 +26,10 @@ export default function PostCard({ postId }: { postId: string }) {
         </CardTitle>
 
         <CardAction>
-          <Badge>Updated On: Date</Badge>
+          <Badge>
+            Updated On:{' '}
+            {formatDistanceToNow(new Date(data.updatedAt), { addSuffix: true })}
+          </Badge>
         </CardAction>
       </CardHeader>
       <CardContent>

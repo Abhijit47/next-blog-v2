@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
@@ -17,9 +16,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Spinner } from '@/components/ui/spinner';
 import {
-  ArrowLeftCircle,
   ArrowLeftCircleIcon,
-  ArrowRightCircle,
   FileEditIcon,
   NotebookPenIcon,
   PencilLine,
@@ -51,38 +48,37 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemTitle,
-} from '@/components/ui/item';
-
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import { Textarea } from '@/components/ui/textarea';
 import { SelectPost } from '@/drizzle/schemas';
 
+import Pagination from '@/components/pagination';
+import Search from '@/components/search';
+import { Badge } from '@/components/ui/badge';
+import { useContentSearch } from '@/hooks/use-content-search';
+import { formatDistanceToNow } from 'date-fns';
 import {
   useCreatePost,
   useRemovePost,
   useSuspencePosts,
   useUpdatePost,
 } from '../hooks/use-posts';
+import { usePostsParams } from '../hooks/use-posts-params';
 
 export function Posts() {
   const { data: posts } = useSuspencePosts();
 
   return (
     <div className={'space-y-4'}>
+      <PostSearch />
       <Card className={'gap-4'}>
         <CardContent
           className={
             'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6'
           }>
-          {posts.map((post) => (
+          {posts.items.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
         </CardContent>
@@ -102,6 +98,12 @@ export function PostCard({ post }: { post: SelectPost }) {
         <CardTitle>
           <h2 className={'line-clamp-1'}>{post.title}</h2>
         </CardTitle>
+        <CardDescription>
+          <Badge>
+            Updated On:{' '}
+            {formatDistanceToNow(new Date(post.updatedAt), { addSuffix: true })}
+          </Badge>
+        </CardDescription>
 
         <PostActions post={post} postId={post.id} />
       </CardHeader>
@@ -151,14 +153,7 @@ export function PostHeader() {
             size={'sm'}
             disabled={isPending}
             onClick={() => {
-              mutate(undefined, {
-                onSuccess: (data) => {
-                  toast.success(`Post "${data.title}" created successfully`);
-                },
-                onError: (error) => {
-                  toast.error(`Error creating post: ${error.message}`);
-                },
-              });
+              mutate();
             }}>
             {isPending ? (
               <span className={'inline-flex items-center gap-2'}>
@@ -170,6 +165,15 @@ export function PostHeader() {
               </span>
             )}
           </Button>
+          <Link
+            href={'/posts/create'}
+            className={buttonVariants({
+              variant: 'link',
+              size: 'sm',
+            })}>
+            <ArrowLeftCircleIcon className={'size-4'} />
+            Create
+          </Link>
           <Link
             href={'/'}
             className={buttonVariants({
@@ -208,27 +212,36 @@ export function PostActions({
   );
 }
 
-export const PostPagination = () => {
+export function PostSearch() {
+  const { data: posts } = useSuspencePosts();
+  const [params, setParams] = usePostsParams();
+  const { searchValue, onSearchValue } = useContentSearch({
+    params,
+    setParams,
+  });
+
   return (
-    <div className='flex w-full'>
-      <Item variant='outline' className={'w-full'}>
-        <ItemContent>
-          <ItemTitle>
-            No of Pages: <strong>10</strong>
-          </ItemTitle>
-          <ItemDescription>Now showing page 1</ItemDescription>
-        </ItemContent>
-        <ItemActions>
-          <Button variant='outline' size='sm'>
-            <ArrowLeftCircle className={'size-4'} />
-            Prev
-          </Button>
-          <Button variant='outline' size='sm'>
-            Next <ArrowRightCircle className={'size-4'} />
-          </Button>
-        </ItemActions>
-      </Item>
+    <div className={'max-w-md mx-auto'}>
+      <Search
+        count={posts.totalCount}
+        searchValue={searchValue}
+        onSearchValue={onSearchValue}
+      />
     </div>
+  );
+}
+
+export const PostPagination = () => {
+  const posts = useSuspencePosts();
+  const [params, setParams] = usePostsParams();
+
+  return (
+    <Pagination
+      disabled={posts.isLoading}
+      totalPages={posts.data.totalPages}
+      page={posts.data.page}
+      onPageChange={(newPage) => setParams({ ...params, page: newPage })}
+    />
   );
 };
 

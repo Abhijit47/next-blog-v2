@@ -5,14 +5,16 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { usePostsParams } from './use-posts-params';
 
 /**
  * Hook to fetch all posts.
  */
 export function useSuspencePosts() {
   const trpc = useTRPC();
+  const [params] = usePostsParams();
 
-  return useSuspenseQuery(trpc.posts.getAll.queryOptions());
+  return useSuspenseQuery(trpc.posts.getAll.queryOptions(params));
 }
 
 /**
@@ -39,7 +41,7 @@ export function useCreatePost() {
     trpc.posts.create.mutationOptions({
       onSuccess: (data) => {
         toast.success(`Post "${data.title}" created successfully`);
-        queryClient.invalidateQueries(trpc.posts.getAll.queryOptions());
+        queryClient.invalidateQueries(trpc.posts.getAll.queryOptions({}));
       },
       onError: (error) => {
         toast.error(`Error creating post: ${error.message}`);
@@ -59,7 +61,7 @@ export function useRemovePost() {
     trpc.posts.remove.mutationOptions({
       onSuccess: (data) => {
         toast.success(`Post deleted successfully`);
-        queryClient.invalidateQueries(trpc.posts.getAll.queryOptions());
+        queryClient.invalidateQueries(trpc.posts.getAll.queryOptions({}));
         queryClient.invalidateQueries(
           trpc.posts.getOne.queryOptions({
             id: data[0].id,
@@ -84,7 +86,7 @@ export function useUpdatePost() {
     trpc.posts.update.mutationOptions({
       onSuccess: (_, variables) => {
         toast.success(`Post updated successfully`);
-        queryClient.invalidateQueries(trpc.posts.getAll.queryOptions());
+        queryClient.invalidateQueries(trpc.posts.getAll.queryOptions({}));
         queryClient.invalidateQueries(
           trpc.posts.getOne.queryOptions({
             id: variables.postId,
