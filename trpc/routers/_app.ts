@@ -1,17 +1,20 @@
-import { z } from 'zod';
-import { baseProcedure, createTRPCRouter } from '../init';
+import { db } from '@/drizzle/db';
+import { baseProcedure, createTRPCRouter, protectedProcedure } from '../init';
+
+import { postsRouter } from '@/features/posts/server/routers';
+
 export const appRouter = createTRPCRouter({
-  hello: baseProcedure
-    .input(
-      z.object({
-        text: z.string(),
-      })
-    )
-    .query((opts) => {
-      return {
-        greeting: `hello ${opts.input.text}`,
-      };
-    }),
+  hello: baseProcedure.query((opts) => {
+    return {
+      greeting: `hello world!`,
+    };
+  }),
+
+  getUsers: protectedProcedure.query(async (opts) => {
+    return db.query.user.findMany({});
+  }),
+
+  posts: postsRouter,
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;

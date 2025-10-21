@@ -54,7 +54,6 @@ export function LoginForm({
   });
 
   const handleSubmit = (data: LoginFormValues) => {
-    console.log('Login data:', data);
     startTransition(async () => {
       await signIn.email({
         email: data.email,
@@ -117,7 +116,11 @@ export function LoginForm({
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder='******' {...field} />
+                        <Input
+                          placeholder='******'
+                          type='password'
+                          {...field}
+                        />
                       </FormControl>
                       <FormDescription className={'text-xs'}>
                         Must be at least 8 characters long.
