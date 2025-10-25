@@ -1,0 +1,224 @@
+'use client';
+
+import * as React from 'react';
+
+import {
+  AudioWaveform,
+  AwardIcon,
+  BrainIcon,
+  BriefcaseBusinessIcon,
+  Command,
+  Frame,
+  GalleryVerticalEnd,
+  Map,
+  NotebookPen,
+  PaperclipIcon,
+  PieChart,
+  Settings2,
+  ToolCaseIcon,
+  UniversityIcon,
+} from 'lucide-react';
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarRail,
+} from '@/components/ui/sidebar';
+import { NavMain } from './nav-main';
+import { NavProjects } from './nav-projects';
+import { NavUser } from './nav-user';
+import { TeamSwitcher } from './team-switcher';
+
+// This is sample data.
+const data = {
+  user: {
+    name: 'shadcn',
+    email: 'm@example.com',
+    avatar: '/avatars/shadcn.jpg',
+  },
+  teams: [
+    {
+      name: 'Acme Inc',
+      logo: GalleryVerticalEnd,
+      plan: 'Enterprise',
+    },
+    {
+      name: 'Acme Corp.',
+      logo: AudioWaveform,
+      plan: 'Startup',
+    },
+    {
+      name: 'Evil Corp.',
+      logo: Command,
+      plan: 'Free',
+    },
+  ],
+  navMain: [
+    {
+      title: 'Projects',
+      url: '#',
+      icon: BriefcaseBusinessIcon,
+      isActive: false,
+      items: [
+        {
+          title: 'Views',
+          url: '/dashboard/projects',
+        },
+        {
+          title: 'Create',
+          url: '/dashboard/projects/create',
+        },
+      ],
+    },
+    {
+      title: 'Skills',
+      url: '#',
+      icon: BrainIcon,
+      items: [
+        {
+          title: 'Views',
+          url: '/dashboard/skills',
+        },
+        {
+          title: 'Create',
+          url: '/dashboard/skills/create',
+        },
+      ],
+    },
+    {
+      title: 'Tools',
+      url: '#',
+      icon: ToolCaseIcon,
+      items: [
+        {
+          title: 'Views',
+          url: '/dashboard/tools',
+        },
+        {
+          title: 'Create',
+          url: '/dashboard/tools/create',
+        },
+      ],
+    },
+    {
+      title: 'Certificates',
+      url: '#',
+      icon: PaperclipIcon,
+      items: [
+        {
+          title: 'Views',
+          url: '/dashboard/certificates',
+        },
+        {
+          title: 'Create',
+          url: '/dashboard/certificates/create',
+        },
+      ],
+    },
+    {
+      title: 'Achievements',
+      url: '#',
+      icon: AwardIcon,
+      items: [
+        {
+          title: 'Views',
+          url: '/dashboard/achievements',
+        },
+        {
+          title: 'Create',
+          url: '/dashboard/achievements/create',
+        },
+      ],
+    },
+    {
+      title: 'Educations',
+      url: '#',
+      icon: UniversityIcon,
+      items: [
+        {
+          title: 'Views',
+          url: '/dashboard/educations',
+        },
+        {
+          title: 'Create',
+          url: '/dashboard/educations/create',
+        },
+      ],
+    },
+    {
+      title: 'Posts',
+      url: '#',
+      icon: NotebookPen,
+      items: [
+        {
+          title: 'Views',
+          url: '/dashboard/posts',
+        },
+        {
+          title: 'Create',
+          url: '/dashboard/posts/create',
+        },
+      ],
+    },
+    {
+      title: 'Settings',
+      url: '#',
+      icon: Settings2,
+      items: [
+        {
+          title: 'General',
+          url: '#',
+        },
+        {
+          title: 'Team',
+          url: '#',
+        },
+        {
+          title: 'Billing',
+          url: '#',
+        },
+        {
+          title: 'Limits',
+          url: '#',
+        },
+      ],
+    },
+  ],
+  projects: [
+    {
+      name: 'Design Engineering',
+      url: '#',
+      icon: Frame,
+    },
+    {
+      name: 'Sales & Marketing',
+      url: '#',
+      icon: PieChart,
+    },
+    {
+      name: 'Travel',
+      url: '#',
+      icon: Map,
+    },
+  ],
+};
+
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  return (
+    <Sidebar collapsible='icon' {...props}>
+      <SidebarHeader>
+        <TeamSwitcher teams={data.teams} />
+      </SidebarHeader>
+      <SidebarContent>
+        <NavMain items={data.navMain} />
+        <NavProjects projects={data.projects} />
+      </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
+  );
+}
