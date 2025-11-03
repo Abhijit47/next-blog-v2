@@ -1,3 +1,9 @@
+import PortfolioForm from '@/features/dashboard/portfolios/components/portfolio-form';
+
 export default function PortfolioPage() {
-  return <div>PORTFOLIO PAGE</div>;
+  return (
+    <div>
+      <PortfolioForm />
+    </div>
+  );
 }
